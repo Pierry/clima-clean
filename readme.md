@@ -12,4 +12,4 @@ Libs
 - Retrofit
 - Room - LiveData
 
-![alt tag](https://raw.githubusercontent.com/Pierry/clima-clean/tree/master/art/capture.png)
+![alt tag](https://github.com/Pierry/clima-clean/blob/master/art/capture.png)
