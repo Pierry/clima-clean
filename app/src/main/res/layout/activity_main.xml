@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/rl"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+  <include layout="@layout/toolbar"/>
+  <EditText
+      android:id="@+id/pesquisa"
+      android:hint="São Paulo, BR"
+      android:layout_below="@+id/toolbar"
+      android:textAllCaps="true"
+      android:imeActionId="01"
+      android:imeActionLabel="Buscar"
+      android:singleLine="true"
+      android:textSize="@dimen/font_adapters"
+      android:drawablePadding="@dimen/margin_small"
+      android:padding="@dimen/margin_default"
+      android:background="@android:color/transparent"
+      android:alpha="0.54"
+      android:textColor="@color/black"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/recyclerView"
+      android:layout_below="@+id/pesquisa"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scrollbars="vertical"/>
+</RelativeLayout>

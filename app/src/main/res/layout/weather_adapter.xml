@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/bg"
+    android:background="@color/white"
+    android:layout_height="80dp">
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:id="@+id/view"
+      android:background="@color/silver"/>
+  <TextView
+      android:text="Itapema, BR"
+      android:layout_marginTop="@dimen/margin_small"
+      android:layout_width="wrap_content"
+      android:textColor="@color/gray"
+      android:textSize="@dimen/font_large"
+      android:layout_centerVertical="true"
+      android:layout_height="wrap_content"
+      android:id="@+id/city"
+      android:layout_marginLeft="@dimen/margin_default"/>
+  <TextView
+      android:text="30"
+      android:layout_width="wrap_content"
+      android:textSize="@dimen/giant"
+      android:textStyle="bold"
+      android:layout_alignParentRight="true"
+      android:layout_centerVertical="true"
+      android:textColor="@color/gray"
+      android:layout_marginRight="@dimen/margin_default"
+      android:layout_height="wrap_content"
+      android:id="@+id/temp"
+  />
+  <TextView
+      android:text="max 32"
+      android:layout_width="wrap_content"
+      android:textSize="@dimen/font_adapters"
+      android:visibility="gone"
+      android:layout_below="@+id/city"
+      android:layout_marginBottom="@dimen/margin_small"
+      android:layout_toRightOf="@+id/min"
+      android:textColor="@color/gray"
+      android:layout_height="wrap_content"
+      android:id="@+id/max"
+      android:layout_marginLeft="@dimen/margin_default"/>
+  <TextView
+      android:text="min 23"
+      android:visibility="gone"
+      android:layout_width="wrap_content"
+      android:layout_below="@+id/city"
+      android:textColor="@color/black"
+      android:textSize="@dimen/font_adapters"
+      android:layout_height="wrap_content"
+      android:id="@+id/min"
+      android:layout_marginLeft="@dimen/margin_default"/>
+
+</RelativeLayout>
