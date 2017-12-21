@@ -4,28 +4,32 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:id="@+id/bg"
-    android:background="@color/white"
-    android:layout_height="wrap_content">
+    android:background="@mipmap/cleanbg"
+    android:scaleType="centerCrop"
+    android:layout_height="100dp">
   <View
       android:layout_width="match_parent"
       android:layout_height="1dp"
       android:id="@+id/view"
-      android:background="@color/silver"/>
+      android:background="@color/black"/>
 
   <TextView
       android:text="Itapema, BR"
-      android:layout_marginTop="@dimen/margin_small"
+      android:layout_marginTop="@dimen/margin_default"
+      android:textStyle="bold"
       android:layout_width="wrap_content"
-      android:textSize="24sp"
+      android:textSize="28sp"
+      android:textColor="@color/white"
       android:layout_height="wrap_content"
       android:id="@+id/city"
       android:layout_marginLeft="@dimen/margin_default"/>
 
   <ImageView
       android:id="@+id/icon"
+      android:visibility="gone"
       android:background="@mipmap/cloud"
-      android:layout_marginTop="32dp"
-      android:layout_marginRight="5dp"
+      android:layout_centerVertical="true"
+      android:layout_marginRight="8dp"
       android:layout_toLeftOf="@+id/temp"
       android:layout_width="30dp"
       android:layout_height="30dp"/>
@@ -34,9 +38,11 @@
       android:text="30"
       android:layout_width="wrap_content"
       android:textSize="@dimen/giant"
+      android:textColor="@color/white"
       android:layout_alignParentRight="true"
       android:layout_centerVertical="true"
-      android:textColor="@color/black"
+      android:layout_marginTop="@dimen/margin_small"
+      android:layout_marginBottom="@dimen/margin_small"
       android:layout_marginRight="@dimen/margin_default"
       android:layout_height="wrap_content"
       android:id="@+id/temp"
@@ -45,28 +51,19 @@
       android:text="max 32"
       android:layout_width="wrap_content"
       android:textSize="@dimen/font_adapters"
-      android:layout_below="@+id/description"
+      android:layout_below="@+id/city"
       android:layout_marginBottom="@dimen/margin_small"
       android:layout_toRightOf="@+id/min"
-      android:textColor="@color/gray"
+      android:textColor="@color/white"
       android:layout_height="wrap_content"
       android:id="@+id/max"
       android:layout_marginLeft="@dimen/margin_default"/>
-  <TextView
-      android:text="Description"
-      android:layout_width="wrap_content"
-      android:textSize="@dimen/font_adapters"
-      android:layout_below="@+id/city"
-      android:layout_marginBottom="@dimen/margin_small"
-      android:textColor="@color/black"
-      android:layout_height="wrap_content"
-      android:id="@+id/description"
-      android:layout_marginLeft="@dimen/margin_default"/>
+
   <TextView
       android:text="min 23"
       android:layout_width="wrap_content"
-      android:layout_below="@+id/description"
-      android:textColor="@color/gray"
+      android:layout_below="@+id/city"
+      android:textColor="@color/white"
       android:textSize="@dimen/font_adapters"
       android:layout_height="wrap_content"
       android:id="@+id/min"

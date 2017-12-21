@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter {
   @BindView(R.id.rl) RelativeLayout rl;
   @BindView(R.id.recyclerView) RecyclerView recyclerView;
   @BindView(R.id.pesquisa) EditText pesquisa;
-  @BindView(R.id.toolbar) Toolbar toolbar;
 
   private CompositeDisposable disposable;
   private RxBus rxBus;
@@ -48,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     unbinder = ButterKnife.bind(this);
+    KeyboardHelper.hide(rl);
     instance();
-    actionBar();
     configRecyclerView();
     pesquisa.setOnEditorActionListener((v, keyCode, keyEvent) -> {
       switch (keyCode) {
@@ -69,11 +68,6 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter {
       }
       return true;
     });
-  }
-
-  void actionBar() {
-    toolbar.setTitle("Clima clean");
-    setSupportActionBar(toolbar);
   }
 
   @Override public boolean dispatchTouchEvent(MotionEvent ev) {

@@ -13,7 +13,7 @@ public class ClimaCleanApp extends Application {
   @Override public void onCreate() {
     super.onCreate();
     CalligraphyConfig.initDefault(
-        new CalligraphyConfig.Builder().setDefaultFontPath("opensans.ttf").setFontAttrId(R.attr.fontPath).build());
+        new CalligraphyConfig.Builder().setDefaultFontPath("lato.otf").setFontAttrId(R.attr.fontPath).build());
   }
 
   public AppDatabase db() {

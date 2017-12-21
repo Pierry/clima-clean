@@ -7,4 +7,7 @@
   <color name="white">#ffffff</color>
   <color name="black">#000000</color>
   <color name="gray">#666666</color>
+  <color name="sun">#c66b3a</color>
+  <color name="cloud">#a6a6a6</color>
+  <color name="rain">#0064c2</color>
 </resources>
