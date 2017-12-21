@@ -4,12 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.UiThread;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -29,11 +28,12 @@ import io.reactivex.disposables.CompositeDisposable;
 import java.util.List;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity implements IMainPresenter {
+public class MainActivity extends AppCompatActivity implements IMainPresenter, SwipeRefreshLayout.OnRefreshListener {
 
   @BindView(R.id.rl) RelativeLayout rl;
   @BindView(R.id.recyclerView) RecyclerView recyclerView;
   @BindView(R.id.pesquisa) EditText pesquisa;
+  @BindView(R.id.refresh) SwipeRefreshLayout refresh;
 
   private CompositeDisposable disposable;
   private RxBus rxBus;
@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     unbinder = ButterKnife.bind(this);
-    KeyboardHelper.hide(rl);
     instance();
     configRecyclerView();
+    refresh.setOnRefreshListener(this);
     pesquisa.setOnEditorActionListener((v, keyCode, keyEvent) -> {
       switch (keyCode) {
         case EditorInfo.IME_ACTION_NONE:
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter {
           progress = ProgressDialog.show(this, "", "Pesquisando...");
           progress.setIndeterminate(true);
           progress.setCancelable(true);
-          controller.fetch(pesquisa.getText().toString());
+          controller.search(pesquisa.getText().toString());
           pesquisa.setText("");
           KeyboardHelper.hide(pesquisa);
           break;
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter {
   void instance() {
     cityController = new CityController(this);
     controller = new WeatherController(cityController);
-    adapter = new WeatherAdapter();
+    adapter = new WeatherAdapter(cityController);
     cityController.all(this);
   }
 
@@ -117,6 +117,9 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter {
   @UiThread void adapter(Object object) {
     adapter.addItems((List<City>) object);
     recyclerView.setAdapter(adapter);
+    if (refresh.isRefreshing()){
+      refresh.setRefreshing(false);
+    }
   }
 
   @Override protected void onDestroy() {
@@ -133,7 +136,12 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter {
 
   @Override public void all(List<City> cityList) {
     for (City c : cityList) {
-      controller.fetch(c.getName());
+      controller.fetch(c);
     }
+  }
+
+  @Override public void onRefresh() {
+    refresh.setRefreshing(true);
+    configRecyclerView();
   }
 }

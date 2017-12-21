@@ -42,6 +42,8 @@ android {
 
 dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
+  // date
+  implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
   // font
   implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
   // supports

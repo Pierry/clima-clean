@@ -5,14 +5,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import io.github.pierry.climaclean.R;
+import io.github.pierry.climaclean.controller.interfaces.IWeatherHolderInteractor;
 import io.github.pierry.climaclean.domain.City;
-import io.github.pierry.climaclean.domain.Weather;
 import io.github.pierry.climaclean.ui.holders.WeatherHolder;
 import java.util.List;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherHolder> {
 
   private List<City> items;
+  private IWeatherHolderInteractor interactor;
+
+  public WeatherAdapter(IWeatherHolderInteractor interactor) {
+    this.interactor = interactor;
+  }
 
   public void addItems(List<City> cities) {
     this.items = cities;
@@ -20,7 +25,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherHolder> {
 
   @Override public WeatherHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.weather_adapter, parent, false);
-    return new WeatherHolder(itemView);
+    return new WeatherHolder(itemView, interactor);
   }
 
   @Override public void onBindViewHolder(WeatherHolder holder, int position) {

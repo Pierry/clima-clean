@@ -1,18 +1,18 @@
 package io.github.pierry.climaclean.ui.holders;
 
-import android.content.Context;
+import android.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.github.pierry.climaclean.R;
+import io.github.pierry.climaclean.controller.interfaces.IWeatherHolderInteractor;
 import io.github.pierry.climaclean.domain.City;
 
-public class WeatherHolder extends RecyclerView.ViewHolder {
+public class WeatherHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
   @BindView(R.id.city) TextView cityName;
   @BindView(R.id.temp) TextView temp;
@@ -25,12 +25,12 @@ public class WeatherHolder extends RecyclerView.ViewHolder {
   private static final String CLEAR = "Clear";
 
   private City city;
-  private Context context;
+  private IWeatherHolderInteractor interactor;
 
-  public WeatherHolder(View view) {
+  public WeatherHolder(View view, IWeatherHolderInteractor interactor) {
     super(view);
-    this.context = view.getContext();
     ButterKnife.bind(this, view);
+    this.interactor = interactor;
   }
 
   public void bind(final City city, final int position) {
@@ -49,5 +49,16 @@ public class WeatherHolder extends RecyclerView.ViewHolder {
     } else {
       bg.setBackgroundResource(R.mipmap.cleanbg);
     }
+    bg.setOnLongClickListener(this);
+  }
+
+  @Override public boolean onLongClick(View v) {
+    AlertDialog.Builder alertDialog = new AlertDialog.Builder(v.getContext());
+    alertDialog.setMessage("Excluir a cidade selecionada?");
+    alertDialog.setPositiveButton("Excluir", (dialog, which) -> {
+      interactor.delete(city);
+    }).setNegativeButton("Cancelar", null);
+    alertDialog.show();
+    return true;
   }
 }

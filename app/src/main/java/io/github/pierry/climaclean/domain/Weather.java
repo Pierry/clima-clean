@@ -10,6 +10,7 @@ public class Weather {
   @SerializedName("temp_min") private double min;
   @SerializedName("temp_max") private double max;
   private String weatherDescription;
+  private long updatedAt;
 
   private static final double K = 273.15;
 
@@ -43,6 +44,14 @@ public class Weather {
 
   public void setWeatherDescription(String weatherDescription) {
     this.weatherDescription = weatherDescription;
+  }
+
+  public long getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(long updatedAt) {
+    this.updatedAt = updatedAt;
   }
 
   public String getTempFormatted() {
