@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter {
     configRecyclerView();
     pesquisa.setOnEditorActionListener((v, keyCode, keyEvent) -> {
       switch (keyCode) {
+        case EditorInfo.IME_ACTION_NONE:
         case EditorInfo.IME_ACTION_DONE:
           String search = pesquisa.getText().toString();
           if (search.isEmpty()) {

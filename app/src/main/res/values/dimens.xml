@@ -3,6 +3,6 @@
   <dimen name="font_adapters">13sp</dimen>
   <dimen name="margin_small">10dp</dimen>
   <dimen name="margin_default">20dp</dimen>
-  <dimen name="giant">36sp</dimen>
+  <dimen name="giant">56sp</dimen>
   <dimen name="font_large">28sp</dimen>
 </resources>

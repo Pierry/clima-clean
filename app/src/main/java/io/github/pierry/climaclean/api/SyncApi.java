@@ -18,8 +18,11 @@ import retrofit2.Response;
 public class SyncApi implements ISyncApi {
 
   private IApi api;
+  private Gson gson;
+  private JsonParser parser;
 
   public SyncApi() {
+    instance();
     api = IApi.retrofit.create(IApi.class);
   }
 
@@ -31,16 +34,7 @@ public class SyncApi implements ISyncApi {
           @Override public void onNext(Response<Object> response) {
             switch (response.code()) {
               case 200:
-                Gson gson = new GsonBuilder().create();
-                JsonParser parser = new JsonParser();
-                String render = gson.toJson(response.body());
-                JsonObject parsed = parser.parse(render).getAsJsonObject();
-                JsonObject converted = parsed.get("main").getAsJsonObject();
-                String cityName = parsed.get("name").getAsString();
-                TypeToken<Weather> token = new TypeToken<Weather>() {
-                };
-                Weather weather = gson.fromJson(converted, token.getType());
-                interactor.found(weather, cityName);
+                parse(response, interactor);
                 break;
             }
           }
@@ -52,5 +46,23 @@ public class SyncApi implements ISyncApi {
           @Override public void onComplete() {
           }
         });
+  }
+
+  void instance() {
+    gson = new GsonBuilder().create();
+    parser = new JsonParser();
+  }
+
+  void parse(Response<Object> response, IWeatherInteractor interactor) {
+    String render = gson.toJson(response.body());
+    JsonObject parsed = parser.parse(render).getAsJsonObject();
+    JsonObject converted = parsed.get("main").getAsJsonObject();
+    String cityName = parsed.get("name").getAsString();
+    String weatherDescription = parsed.get("weather").getAsJsonArray().get(0).getAsJsonObject().get("main").getAsString();
+    TypeToken<Weather> token = new TypeToken<Weather>() {
+    };
+    Weather weather = gson.fromJson(converted, token.getType());
+    weather.setWeatherDescription(weatherDescription);
+    interactor.found(weather, cityName);
   }
 }

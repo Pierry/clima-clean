@@ -2,7 +2,7 @@ package io.github.pierry.climaclean.common;
 
 public class Const {
 
-  public static final String DATABASE = "climaclean02";
+  public static final String DATABASE = "climaclean03";
 
   public static final String URL = "http://api.openweathermap.org/data/2.5/";
 
