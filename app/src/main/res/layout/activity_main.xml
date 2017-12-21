@@ -14,17 +14,19 @@
       android:imeActionId="01"
       android:imeActionLabel="Buscar"
       android:singleLine="true"
-      android:textSize="18sp"
+      android:textSize="20sp"
       android:drawablePadding="@dimen/margin_small"
       android:padding="@dimen/margin_default"
-      android:background="@color/deepgray"
+      android:background="@color/black"
       android:textColor="@color/white"
+      android:textColorHint="@color/gray"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"/>
   <android.support.v4.widget.SwipeRefreshLayout
       xmlns:android="http://schemas.android.com/apk/res/android"
       android:id="@+id/refresh"
       android:layout_below="@+id/pesquisa"
+      android:layout_above="@+id/att"
       android:layout_width="match_parent"
       android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
@@ -33,5 +35,13 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"/>
   </android.support.v4.widget.SwipeRefreshLayout>
-
+<TextView
+    android:textColor="@color/silver"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="@dimen/margin_small"
+    android:layout_marginRight="@dimen/margin_default"
+    android:id="@+id/att"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
 </RelativeLayout>

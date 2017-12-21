@@ -13,10 +13,12 @@ import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.github.pierry.climaclean.R;
+import io.github.pierry.climaclean.common.DateHelper;
 import io.github.pierry.climaclean.common.KeyboardHelper;
 import io.github.pierry.climaclean.common.RxBus;
 import io.github.pierry.climaclean.controller.CityController;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter, S
   @BindView(R.id.recyclerView) RecyclerView recyclerView;
   @BindView(R.id.pesquisa) EditText pesquisa;
   @BindView(R.id.refresh) SwipeRefreshLayout refresh;
+  @BindView(R.id.att) TextView att;
 
   private CompositeDisposable disposable;
   private RxBus rxBus;
@@ -137,6 +140,10 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter, S
   @Override public void all(List<City> cityList) {
     for (City c : cityList) {
       controller.fetch(c);
+    }
+    if (!cityList.isEmpty()){
+      long updatedAt = cityList.get(0).getWeather().getUpdatedAt();
+      att.setText("Atualizado em: " + DateHelper.humanizer(updatedAt));
     }
   }
 
