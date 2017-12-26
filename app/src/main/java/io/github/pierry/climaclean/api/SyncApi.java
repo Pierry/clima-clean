@@ -2,14 +2,13 @@ package io.github.pierry.climaclean.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import io.github.pierry.climaclean.api.interfaces.IApi;
 import io.github.pierry.climaclean.api.interfaces.ISyncApi;
+import io.github.pierry.climaclean.api.viewmodels.forecast.Forecast;
+import io.github.pierry.climaclean.api.viewmodels.now.Now;
 import io.github.pierry.climaclean.common.Const;
 import io.github.pierry.climaclean.controller.interfaces.IWeatherInteractor;
-import io.github.pierry.climaclean.domain.Weather;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -26,15 +25,20 @@ public class SyncApi implements ISyncApi {
     api = IApi.retrofit.create(IApi.class);
   }
 
-  @Override public void get(final IWeatherInteractor interactor, String city) {
+  void instance() {
+    gson = new GsonBuilder().create();
+    parser = new JsonParser();
+  }
+
+  @Override public void cityNow(final IWeatherInteractor interactor, String city) {
     api.byCity(city, Const.KEY)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeOn(Schedulers.io())
-        .subscribeWith(new DisposableObserver<Response<Object>>() {
-          @Override public void onNext(Response<Object> response) {
+        .subscribeWith(new DisposableObserver<Response<Now>>() {
+          @Override public void onNext(Response<Now> response) {
             switch (response.code()) {
               case 200:
-                parse(response, interactor);
+                interactor.found(response.body());
                 break;
             }
           }
@@ -48,21 +52,25 @@ public class SyncApi implements ISyncApi {
         });
   }
 
-  void instance() {
-    gson = new GsonBuilder().create();
-    parser = new JsonParser();
-  }
+  @Override public void forecast(IWeatherInteractor interactor, String city) {
+    api.forecast(city, Const.KEY)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
+        .subscribeWith(new DisposableObserver<Response<Forecast>>() {
+          @Override public void onNext(Response<Forecast> response) {
+            switch (response.code()) {
+              case 200:
+                interactor.forecast(response.body());
+                break;
+            }
+          }
 
-  void parse(Response<Object> response, IWeatherInteractor interactor) {
-    String render = gson.toJson(response.body());
-    JsonObject parsed = parser.parse(render).getAsJsonObject();
-    JsonObject converted = parsed.get("main").getAsJsonObject();
-    String cityName = parsed.get("name").getAsString();
-    String weatherDescription = parsed.get("weather").getAsJsonArray().get(0).getAsJsonObject().get("main").getAsString();
-    TypeToken<Weather> token = new TypeToken<Weather>() {
-    };
-    Weather weather = gson.fromJson(converted, token.getType());
-    weather.setWeatherDescription(weatherDescription);
-    interactor.found(weather, cityName);
+          @Override public void onError(Throwable e) {
+
+          }
+
+          @Override public void onComplete() {
+          }
+        });
   }
 }

@@ -4,5 +4,7 @@ import io.github.pierry.climaclean.controller.interfaces.IWeatherInteractor;
 
 public interface ISyncApi {
 
-  void get(IWeatherInteractor interactor, String city);
+  void cityNow(IWeatherInteractor interactor, String city);
+
+  void forecast(IWeatherInteractor interactor, String city);
 }

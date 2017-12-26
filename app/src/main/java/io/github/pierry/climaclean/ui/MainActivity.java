@@ -139,10 +139,10 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter, S
 
   @Override public void all(List<City> cityList) {
     for (City c : cityList) {
-      controller.fetch(c);
+      controller.fetchNow(c);
     }
     if (!cityList.isEmpty()){
-      long updatedAt = cityList.get(0).getWeather().getUpdatedAt();
+      long updatedAt = cityList.get(0).getUpdatedAt();
       att.setText("Atualizado em: " + DateHelper.humanizer(updatedAt));
     }
   }

@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class DateHelper {
 
-  private static final String HUMANIZER = "dd' de 'MMM', 'HH:mm:ss";
+  private static final String HUMANIZER = "dd' de 'MMM', 'HH:mm";
 
   public static String humanizer(long d) {
     try {

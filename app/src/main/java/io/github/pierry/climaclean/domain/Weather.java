@@ -1,16 +1,21 @@
 package io.github.pierry.climaclean.domain;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class Weather {
+@Entity(foreignKeys = @ForeignKey(entity = City.class, parentColumns = "name", childColumns = "cityName")) public class Weather {
 
+  @PrimaryKey private long dateTime;
   private double temp;
   @SerializedName("temp_min") private double min;
   @SerializedName("temp_max") private double max;
-  private String weatherDescription;
-  private long updatedAt;
+  private String description;
+  private String title;
+  private long cityName;
 
   private static final double K = 273.15;
 
@@ -38,20 +43,28 @@ public class Weather {
     this.max = max;
   }
 
-  public String getWeatherDescription() {
-    return weatherDescription;
+  public String getDescription() {
+    return description;
   }
 
-  public void setWeatherDescription(String weatherDescription) {
-    this.weatherDescription = weatherDescription;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
-  public long getUpdatedAt() {
-    return updatedAt;
+  public String getTitle() {
+    return title;
   }
 
-  public void setUpdatedAt(long updatedAt) {
-    this.updatedAt = updatedAt;
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public long getDateTime() {
+    return dateTime;
+  }
+
+  public void setDateTime(long dateTime) {
+    this.dateTime = dateTime;
   }
 
   public String getTempFormatted() {

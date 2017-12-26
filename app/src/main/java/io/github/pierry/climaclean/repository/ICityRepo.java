@@ -15,6 +15,8 @@ import java.util.List;
 
   @Query("SELECT * FROM City") List<City> all();
 
+  @Query("SELECT * FROM City WHERE name = :cityName") City getByName(String cityName);
+
   @Insert(onConflict = OnConflictStrategy.REPLACE) void save(City city);
 
   @Delete void delete(City city);

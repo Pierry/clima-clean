@@ -11,14 +11,11 @@ import java.util.List;
 
 public class CityController extends BaseController implements IWeatherHolderInteractor {
 
-  private RxBus rxBus;
-
   public CityController(Context context) {
     super(context);
   }
 
   public void observe(LifecycleOwner owner, RxBus rxBus) {
-    this.rxBus = rxBus;
     new AsyncJob.AsyncJobBuilder<Boolean>().doInBackground(() -> {
       db().cityRepository().cities().observe(owner, cities -> rxBus.send(cities));
       return true;
@@ -26,7 +23,6 @@ public class CityController extends BaseController implements IWeatherHolderInte
   }
 
   public void all(IMainPresenter presenter) {
-    this.rxBus = rxBus;
     new AsyncJob.AsyncJobBuilder<List<City>>().doInBackground(() -> db().cityRepository().all()).doWhenFinished(list -> {
       presenter.all((List<City>) list);
     }).create().start();
@@ -44,5 +40,12 @@ public class CityController extends BaseController implements IWeatherHolderInte
       db().cityRepository().delete(city);
       return true;
     }).create().start();
+  }
+
+  public void getByName(String cityName, LifecycleOwner owner, RxBus rxBus) {
+    new AsyncJob.AsyncJobBuilder<City>().doInBackground(() -> db().cityRepository().getByName(cityName))
+        .doWhenFinished(city -> rxBus.send(city))
+        .create()
+        .start();
   }
 }

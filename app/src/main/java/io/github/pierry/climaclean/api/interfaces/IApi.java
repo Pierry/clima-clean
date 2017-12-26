@@ -2,6 +2,8 @@ package io.github.pierry.climaclean.api.interfaces;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.github.pierry.climaclean.api.viewmodels.forecast.Forecast;
+import io.github.pierry.climaclean.api.viewmodels.now.Now;
 import io.github.pierry.climaclean.common.Const;
 import io.reactivex.Observable;
 import java.lang.reflect.Modifier;
@@ -22,5 +24,7 @@ public interface IApi {
       .addConverterFactory(GsonConverterFactory.create(gson))
       .build();
 
-  @POST(Const.BY_CITY) Observable<Response<Object>> byCity(@Query("q") String city, @Query("APPID") String appId);
+  @POST(Const.BY_CITY) Observable<Response<Now>> byCity(@Query("q") String city, @Query("APPID") String appId);
+
+  @POST(Const.BY_CITY_FORECAST) Observable<Response<Forecast>> forecast(@Query("q") String city, @Query("APPID") String appid);
 }

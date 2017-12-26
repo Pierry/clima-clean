@@ -1,6 +1,9 @@
 package io.github.pierry.climaclean.ui.holders;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -11,8 +14,9 @@ import butterknife.ButterKnife;
 import io.github.pierry.climaclean.R;
 import io.github.pierry.climaclean.controller.interfaces.IWeatherHolderInteractor;
 import io.github.pierry.climaclean.domain.City;
+import io.github.pierry.climaclean.ui.DetailsActivity;
 
-public class WeatherHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+public class WeatherHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
 
   @BindView(R.id.city) TextView cityName;
   @BindView(R.id.temp) TextView temp;
@@ -26,9 +30,11 @@ public class WeatherHolder extends RecyclerView.ViewHolder implements View.OnLon
 
   private City city;
   private IWeatherHolderInteractor interactor;
+  private Context context;
 
   public WeatherHolder(View view, IWeatherHolderInteractor interactor) {
     super(view);
+    context = view.getContext();
     ButterKnife.bind(this, view);
     this.interactor = interactor;
   }
@@ -36,20 +42,21 @@ public class WeatherHolder extends RecyclerView.ViewHolder implements View.OnLon
   public void bind(final City city, final int position) {
     this.city = city;
     cityName.setText(city.getName());
-    temp.setText(city.getWeather().getTempFormatted());
-    max.setText(city.getWeather().getMaxFormatted());
-    min.setText(city.getWeather().getMinFormatted());
-    Log.i("Weather", city.getName() + " - " + city.getWeather().getWeatherDescription());
-    if (city.getWeather().getWeatherDescription().equals(CLEAR)) {
+    temp.setText(city.getWeathers().get(0).getTempFormatted());
+    max.setText(city.getWeathers().get(0).getMaxFormatted());
+    min.setText(city.getWeathers().get(0).getMinFormatted());
+    Log.i("Weather", city.getName() + " - " + city.getWeathers().get(0).getTitle());
+    if (city.getWeathers().get(0).getTitle().equals(CLEAR)) {
       bg.setBackgroundResource(R.mipmap.cleanbg);
-    } else if (city.getWeather().getWeatherDescription().equals(CLOUD)) {
+    } else if (city.getWeathers().get(0).getTitle().equals(CLOUD)) {
       bg.setBackgroundResource(R.mipmap.cloudsbg);
-    } else if (city.getWeather().getWeatherDescription().equals(RAIN)) {
+    } else if (city.getWeathers().get(0).getTitle().equals(RAIN)) {
       bg.setBackgroundResource(R.mipmap.rainbg);
     } else {
       bg.setBackgroundResource(R.mipmap.cleanbg);
     }
     bg.setOnLongClickListener(this);
+    bg.setOnClickListener(this);
   }
 
   @Override public boolean onLongClick(View v) {
@@ -60,5 +67,13 @@ public class WeatherHolder extends RecyclerView.ViewHolder implements View.OnLon
     }).setNegativeButton("Cancelar", null);
     alertDialog.show();
     return true;
+  }
+
+  @Override public void onClick(View v) {
+    Bundle bundle = new Bundle();
+    bundle.putString("cityName", city.getName());
+    Intent details = new Intent(context, DetailsActivity.class);
+    details.putExtras(bundle);
+    context.startActivity(details);
   }
 }
