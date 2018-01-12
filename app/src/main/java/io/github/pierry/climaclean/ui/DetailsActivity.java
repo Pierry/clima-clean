@@ -44,7 +44,7 @@ public class DetailsActivity extends AppCompatActivity {
 
   void instance() {
     cityController = new CityController(this);
-    weatherController = new WeatherController(cityController);
+    weatherController = new WeatherController(this, cityController);
   }
 
   void actionBar(String city) {

@@ -5,27 +5,9 @@ import java.util.List;
 
 public class Forecast {
 
-  private String cod;
-  private double message;
   private int cnt;
   @SerializedName("list") private List<Details> details;
   private City city;
-
-  public String getCod() {
-    return cod;
-  }
-
-  public void setCod(String cod) {
-    this.cod = cod;
-  }
-
-  public double getMessage() {
-    return message;
-  }
-
-  public void setMessage(double message) {
-    this.message = message;
-  }
 
   public int getCnt() {
     return cnt;

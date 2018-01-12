@@ -28,22 +28,28 @@ public class CityController extends BaseController implements IWeatherHolderInte
     }).create().start();
   }
 
-  public void add(City city) {
+  public void cities(IMainPresenter presenter) {
+    new AsyncJob.AsyncJobBuilder<List<City>>().doInBackground(() -> db().cityRepository().all()).doWhenFinished(list -> {
+      presenter.all((List<City>) list);
+    }).create().start();
+  }
+
+  public void save(City city) {
     new AsyncJob.AsyncJobBuilder<Boolean>().doInBackground(() -> {
       db().cityRepository().save(city);
       return true;
     }).create().start();
   }
 
-  @Override public void delete(City city) {
+  @Override public void delete(long id) {
     new AsyncJob.AsyncJobBuilder<Boolean>().doInBackground(() -> {
-      db().cityRepository().delete(city);
+      db().cityRepository().delete(id);
       return true;
     }).create().start();
   }
 
-  public void getByName(String cityName, LifecycleOwner owner, RxBus rxBus) {
-    new AsyncJob.AsyncJobBuilder<City>().doInBackground(() -> db().cityRepository().getByName(cityName))
+  public void getById(long id, LifecycleOwner owner, RxBus rxBus) {
+    new AsyncJob.AsyncJobBuilder<City>().doInBackground(() -> db().cityRepository().getById(id))
         .doWhenFinished(city -> rxBus.send(city))
         .create()
         .start();

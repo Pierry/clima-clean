@@ -1,15 +1,30 @@
 package io.github.pierry.climaclean.domain;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
 @Entity public class City {
 
-  @NonNull @PrimaryKey private String name;
+  @PrimaryKey private long id;
+  private String name;
   private long updatedAt;
 
-  public City() {
+ public City() {
+  }
+
+  @Ignore public City(long id, String name, long updatedAt) {
+    this.id = id;
+    this.name = name;
+    this.updatedAt = updatedAt;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 
   public String getName() {

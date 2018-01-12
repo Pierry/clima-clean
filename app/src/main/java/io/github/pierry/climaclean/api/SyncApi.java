@@ -1,5 +1,6 @@
 package io.github.pierry.climaclean.api;
 
+import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
@@ -44,10 +45,11 @@ public class SyncApi implements ISyncApi {
           }
 
           @Override public void onError(Throwable e) {
-
+            Log.e(Const.TAG, e.getMessage());
           }
 
           @Override public void onComplete() {
+            Log.i(Const.TAG, "Weather completed");
           }
         });
   }

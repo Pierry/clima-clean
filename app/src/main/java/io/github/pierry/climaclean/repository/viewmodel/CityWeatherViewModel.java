@@ -1,14 +1,15 @@
-package io.github.pierry.climaclean.domain;
+package io.github.pierry.climaclean.repository.viewmodel;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.PrimaryKey;
+import io.github.pierry.climaclean.domain.Weather;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-@Entity(foreignKeys = @ForeignKey(entity = City.class, parentColumns = "id", childColumns = "cityId")) public class Weather {
+public class CityWeatherViewModel {
 
-  @PrimaryKey private long dateTime;
+  private long id;
+  private String name;
+  private long updatedAt;
+  private long dateTime;
   private double temp;
   private double min;
   private double max;
@@ -17,6 +18,30 @@ import java.util.Locale;
   private long cityId;
 
   private static final double K = 273.15;
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public long getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(long updatedAt) {
+    this.updatedAt = updatedAt;
+  }
 
   public double getTemp() {
     return temp;
@@ -68,17 +93,17 @@ import java.util.Locale;
 
   public String getTempFormatted() {
     double tempCelsius = temp - K;
-    return format(tempCelsius);
+    return Weather.format(tempCelsius);
   }
 
   public String getMinFormatted() {
     double minCelsius = min - K;
-    return "Min " + format(minCelsius);
+    return "Min " + Weather.format(minCelsius);
   }
 
   public String getMaxFormatted() {
     double maxCelsius = max - K;
-    return "Max " + format(maxCelsius);
+    return "Max " + Weather.format(maxCelsius);
   }
 
   public long getCityId() {
@@ -89,10 +114,4 @@ import java.util.Locale;
     this.cityId = cityId;
   }
 
-  public static String format(double value) {
-    final NumberFormat numberFormatter = NumberFormat.getInstance(Locale.getDefault());
-    numberFormatter.setMinimumFractionDigits(0);
-    numberFormatter.setMaximumFractionDigits(0);
-    return numberFormatter.format(value) + (char) 0x00B0;
-  }
 }

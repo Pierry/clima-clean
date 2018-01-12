@@ -4,16 +4,18 @@ import com.google.gson.annotations.SerializedName;
 import io.github.pierry.climaclean.api.viewmodels.forecast.Clouds;
 import io.github.pierry.climaclean.api.viewmodels.forecast.WeatherDescription;
 import io.github.pierry.climaclean.api.viewmodels.forecast.Wind;
+import java.util.List;
 
 public class Now {
 
   private Coord coord;
-  @SerializedName("weather") private WeatherDetails weatherDetails;
+  @SerializedName("weather") private List<WeatherDetails> weatherDetails;
   @SerializedName("main") private WeatherDescription weatherDescription;
   private Wind wind;
   private Clouds clouds;
   @SerializedName("dt") private long dateTime;
   @SerializedName("name") private String name;
+  @SerializedName("id") private long id;
 
   public Coord getCoord() {
     return coord;
@@ -23,11 +25,11 @@ public class Now {
     this.coord = coord;
   }
 
-  public WeatherDetails getWeatherDetails() {
+  public List<WeatherDetails> getWeatherDetails() {
     return weatherDetails;
   }
 
-  public void setWeatherDetails(WeatherDetails weatherDetails) {
+  public void setWeatherDetails(List<WeatherDetails> weatherDetails) {
     this.weatherDetails = weatherDetails;
   }
 
@@ -69,5 +71,13 @@ public class Now {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 }

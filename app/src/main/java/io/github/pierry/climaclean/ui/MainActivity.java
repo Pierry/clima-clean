@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -18,12 +19,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.github.pierry.climaclean.R;
+import io.github.pierry.climaclean.common.Const;
 import io.github.pierry.climaclean.common.DateHelper;
 import io.github.pierry.climaclean.common.KeyboardHelper;
 import io.github.pierry.climaclean.common.RxBus;
 import io.github.pierry.climaclean.controller.CityController;
 import io.github.pierry.climaclean.controller.WeatherController;
 import io.github.pierry.climaclean.domain.City;
+import io.github.pierry.climaclean.domain.Weather;
+import io.github.pierry.climaclean.repository.viewmodel.CityWeatherViewModel;
 import io.github.pierry.climaclean.ui.adapters.WeatherAdapter;
 import io.github.pierry.climaclean.ui.presenters.IMainPresenter;
 import io.reactivex.disposables.CompositeDisposable;
@@ -97,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter, S
 
   void instance() {
     cityController = new CityController(this);
-    controller = new WeatherController(cityController);
+    controller = new WeatherController(this, cityController);
     adapter = new WeatherAdapter(cityController);
     cityController.all(this);
   }
@@ -113,14 +117,14 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter, S
     try {
       cityController.observe(this, getRxBus());
     } catch (Exception e) {
-
+      Log.e(Const.TAG, e.getMessage());
     }
   }
 
   @UiThread void adapter(Object object) {
-    adapter.addItems((List<City>) object);
+    adapter.addItems((List<CityWeatherViewModel>) object);
     recyclerView.setAdapter(adapter);
-    if (refresh.isRefreshing()){
+    if (refresh.isRefreshing()) {
       refresh.setRefreshing(false);
     }
   }
@@ -141,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter, S
     for (City c : cityList) {
       controller.fetchNow(c);
     }
-    if (!cityList.isEmpty()){
+    if (!cityList.isEmpty()) {
       long updatedAt = cityList.get(0).getUpdatedAt();
       att.setText("Atualizado em: " + DateHelper.humanizer(updatedAt));
     }
