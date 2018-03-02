@@ -17,6 +17,9 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import com.manolovn.trianglify.TrianglifyView;
+import com.manolovn.trianglify.generator.color.RandomColorGenerator;
+import com.manolovn.trianglify.generator.point.CircularPointGenerator;
 import io.github.pierry.climaclean.R;
 import io.github.pierry.climaclean.common.DateHelper;
 import io.github.pierry.climaclean.common.KeyboardHelper;
@@ -143,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements IMainPresenter, S
     }
     if (!cityList.isEmpty()){
       long updatedAt = cityList.get(0).getWeather().getUpdatedAt();
-      att.setText("Atualizado em: " + DateHelper.humanizer(updatedAt));
+      att.setText("Atualizado em " + DateHelper.humanizer(updatedAt));
     }
   }
 
