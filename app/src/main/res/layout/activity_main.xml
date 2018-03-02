@@ -6,6 +6,11 @@
     android:layout_width="match_parent"
     android:background="@color/black"
     android:layout_height="match_parent">
+  <com.manolovn.trianglify.TrianglifyView
+      android:id="@+id/trianglify"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+  />
   <EditText
       android:id="@+id/pesquisa"
       android:hint="São Paulo, BR"
